@@ -11,7 +11,8 @@ public enum CodigoError {
 	  ERROR_XML(100, "Error de Carga de Ficheros"),
           ERROR_CONEXION(101, "Error de conexion de MySQL"),
           ERROR_CONSULTAS(102, "Error de consultas"),
-          ERROR_ARCHIVOS(103, "Error al listar archivos");
+          ERROR_ARCHIVOS(103, "Error al listar archivos"),
+          ERROR_SCRAPING(103, "Error buscar peli en la WEB");
 
 	  private final int codigo;
 	  private final String descripcion;
