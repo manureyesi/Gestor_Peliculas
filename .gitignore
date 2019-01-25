@@ -1,0 +1,14 @@
+# GitIgnore
+
+dist/
+
+log/
+
+build/
+
+nbproject/
+
+build.xml
+manifest.mf
+
+datos.xml
