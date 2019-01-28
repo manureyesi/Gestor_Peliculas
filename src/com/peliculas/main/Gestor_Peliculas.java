@@ -57,7 +57,7 @@ public class Gestor_Peliculas {
             }
             
             buscar = new BuscarInfoPelicula();
-            log.info(buscar.BuscarInfoPelicula("Pan"));
+            log.info(buscar.BuscarInfoPelicula("Pan", "Pan.avi"));
             
         } catch(ErrorPrograma ex){
             log.error(ex.toString());
