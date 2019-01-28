@@ -1,5 +1,7 @@
 package com.peliculas.main;
 
+import com.peliculas.bd.AdministradorPeliculasDB;
+import com.peliculas.clases.Peliculas;
 import com.peliculas.configuracion.XMLCargarConfiguracion;
 import com.peliculas.exception.CodigoError;
 import com.peliculas.exception.ErrorPrograma;
@@ -44,7 +46,6 @@ public class Gestor_Peliculas {
             ArrayList<String> lista;
             try {
                 lista = dir.formatearRutaFicheros(dir.listaDirectorios(arc.getPath()), arc.getPath());
-                
             } catch (IOException ex) {
                 log.error("Error al listar archivos");
                 throw new ErrorPrograma(CodigoError.ERROR_ARCHIVOS);
@@ -57,7 +58,11 @@ public class Gestor_Peliculas {
             }
             
             buscar = new BuscarInfoPelicula();
-            log.info(buscar.BuscarInfoPelicula("Pan", "Pan.avi"));
+            Peliculas pelicula = buscar.BuscarInfoPelicula("Alicia en el país de las maravillas", "Alicia.avi");
+            
+            if(!AdministradorPeliculasDB.subirPelicula(pelicula)){
+                log.error("ERROR al añadir Pelicula de: "+ pelicula.getNombre());
+            }
             
         } catch(ErrorPrograma ex){
             log.error(ex.toString());

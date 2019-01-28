@@ -22,7 +22,7 @@ public class BuscarInfoPelicula {
     
     public Peliculas BuscarInfoPelicula(String pelicula, String urlPelicula) throws ErrorPrograma{
         
-        String buscarIMDB = url+"find?ref_=nv_sr_fn&q="+pelicula.replaceAll(" ", "+")+"&s=all";
+        String buscarIMDB = url+"find?q="+pelicula.replaceAll(" ", "+")+"&s=tt&ttype=ft&ref_=fn_ft";
         
         log.info("Url a buscar: "+buscarIMDB);
         
@@ -68,7 +68,6 @@ public class BuscarInfoPelicula {
             }
             cont++;
         }
-        
         
         return generos;
     }
