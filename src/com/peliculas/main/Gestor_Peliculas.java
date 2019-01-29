@@ -44,24 +44,20 @@ public class Gestor_Peliculas {
             
             Directorio dir = new Directorio();
             ArrayList<String> lista;
-            try {
-                lista = dir.formatearRutaFicheros(dir.listaDirectorios(arc.getPath()), arc.getPath());
-            } catch (IOException ex) {
-                log.error("Error al listar archivos");
-                throw new ErrorPrograma(CodigoError.ERROR_ARCHIVOS);
-            }
+                lista = dir.formatearRutaFicheros(dir.listaDirectoriosNuevo(arc.getPath()), arc.getPath());
+            
             
             BuscarInfoPelicula buscar = null;
-            
-            for(String arch: lista){
-                log.info(arch.substring(0,arch.lastIndexOf(".")));
-            }
-            
+            Peliculas pelicula = null;
             buscar = new BuscarInfoPelicula();
-            Peliculas pelicula = buscar.BuscarInfoPelicula("Alicia en el país de las maravillas", "Alicia.avi");
-            
-            if(!AdministradorPeliculasDB.subirPelicula(pelicula)){
-                log.error("ERROR al añadir Pelicula de: "+ pelicula.getNombre());
+            for(String arch: lista){
+                if(!arch.contains("$")){
+                    pelicula = buscar.BuscarInfoPelicula(arch.substring(0,arch.lastIndexOf(".")), arch);
+                    log.info(arch.substring(0,arch.lastIndexOf(".")));
+                    if(!AdministradorPeliculasDB.subirPelicula(pelicula)){
+                        log.error("ERROR al añadir Pelicula de: "+ pelicula.getNombre());
+                    }
+                }
             }
             
         } catch(ErrorPrograma ex){

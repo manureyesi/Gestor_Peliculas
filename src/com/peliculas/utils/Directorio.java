@@ -5,11 +5,14 @@ package com.peliculas.utils;
  * @author mreyesi
  */
 
+import com.peliculas.exception.CodigoError;
+import com.peliculas.exception.ErrorPrograma;
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystemException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.apache.log4j.Logger;
 
 public class Directorio {
@@ -29,6 +32,26 @@ public class Directorio {
                 }
             }
         });
+        
+        return lista;
+    }
+    
+    public ArrayList<String> listaDirectoriosNuevo(String path) throws ErrorPrograma{
+        
+        log.info("Listando archivos en Array");
+        
+        ArrayList<String> lista = new ArrayList();
+        
+        String sDirectorio = path;
+        File file = new File(sDirectorio);
+        
+        String[] ficheros = file.list();
+        lista.addAll(Arrays.asList(ficheros));
+        
+        if(lista.isEmpty()){
+            log.error("Error al listar archivos");
+            throw new ErrorPrograma(CodigoError.ERROR_ARCHIVOS);
+        }
         
         return lista;
     }
