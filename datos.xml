@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<datos>
+    <path>I:\</path>
+    <ip>localhost</ip>
+    <port>3306</port>
+    <user>PELICULAS</user>
+    <pass>PELICULAS</pass>
+	<db>PELICULAS</db>
+</datos>
