@@ -21,7 +21,7 @@ public class AdministradorPeliculasDB {
             Consultas con = new Consultas();
             
             con.insertPelicula(pelicula.getNombre(), pelicula.getUrl_video(), pelicula.getUrl_img(), 
-                    0, pelicula.getAno(), pelicula.getDirector());
+                    1, pelicula.getAno(), pelicula.getDirector());
             log.info("PELICULA añadida con EXITO");
         } catch (ErrorPrograma ex) {
             error = true;

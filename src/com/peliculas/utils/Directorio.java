@@ -40,13 +40,17 @@ public class Directorio {
         
         log.info("Listando archivos en Array");
         
-        ArrayList<String> lista = new ArrayList();
+        ArrayList<String> lista = new ArrayList<>();
         
-        String sDirectorio = path;
-        File file = new File(sDirectorio);
+        File file = new File(path);
         
         String[] ficheros = file.list();
-        lista.addAll(Arrays.asList(ficheros));
+        
+        for(int i = 0; i < ficheros.length; i++){
+            if(!ficheros[i].contains("$") && ficheros[i].contains(".") && !ficheros[i].contains("00 - Peliculas Actualizar")){
+                lista.add(ficheros[i]);         
+            }
+        }
         
         if(lista.isEmpty()){
             log.error("Error al listar archivos");
@@ -63,9 +67,7 @@ public class Directorio {
         ArrayList<String> listaAux = new ArrayList<>();
         
         for(String archivo: lista){
-            
             listaAux.add(archivo.replace(path, ""));
-            
         }
         
         return listaAux;        

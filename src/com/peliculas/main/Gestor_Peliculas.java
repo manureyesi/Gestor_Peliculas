@@ -44,19 +44,25 @@ public class Gestor_Peliculas {
             
             Directorio dir = new Directorio();
             ArrayList<String> lista;
-                lista = dir.formatearRutaFicheros(dir.listaDirectoriosNuevo(arc.getPath()), arc.getPath());
             
+            lista = dir.formatearRutaFicheros(dir.listaDirectoriosNuevo(arc.getPath()), arc.getPath());
+            
+            log.info("Gestionando busqueda de "+ lista.size() +" peliculas");
             
             BuscarInfoPelicula buscar = null;
             Peliculas pelicula = null;
             buscar = new BuscarInfoPelicula();
             for(String arch: lista){
-                if(!arch.contains("$")){
+                try{
                     pelicula = buscar.BuscarInfoPelicula(arch.substring(0,arch.lastIndexOf(".")), arch);
                     log.info(arch.substring(0,arch.lastIndexOf(".")));
                     if(!AdministradorPeliculasDB.subirPelicula(pelicula)){
                         log.error("ERROR al añadir Pelicula de: "+ pelicula.getNombre());
                     }
+                } catch(ErrorPrograma ex){
+                    log.info("Error: " + ex.getDescripcionError() + " al buscar la pelicula: " + arch.substring(0,arch.lastIndexOf(".")));                
+                } catch(Exception ex){
+                    log.error("Error Generico: " + ex);
                 }
             }
             

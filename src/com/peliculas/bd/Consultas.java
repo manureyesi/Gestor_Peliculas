@@ -27,12 +27,11 @@ public class Consultas {
     public void insertPelicula(String nombre, String urlVideo, String urlImg, int genero, String fechaSalida, String director) throws ErrorPrograma {
         
         try{
-            String sql = "INSERT INTO PELICULAS (NOMBRE, URL_VIDEO, URL_IMG, GENERO, FECHA_SALIDA, DIRECTOR) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO PELICULAS (NOMBRE, URL_VIDEO, URL_IMG, FECHA_SALIDA, DIRECTOR) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement insert = con.prepareStatement(sql);
-            insert.setString(0, nombre);
-            insert.setString(1, urlVideo);
-            insert.setString(2, urlImg);
-            insert.setInt(3, genero);
+            insert.setString(1, nombre);
+            insert.setString(2, urlVideo);
+            insert.setString(3, urlImg);
             insert.setString(4, fechaSalida);
             insert.setString(5, director);
             insert.executeUpdate();
