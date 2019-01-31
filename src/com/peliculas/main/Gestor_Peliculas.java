@@ -5,6 +5,7 @@ import com.peliculas.exception.CodigoError;
 import com.peliculas.exception.ErrorPrograma;
 import com.peliculas.utils.BuscarInfoPelicula;
 import com.peliculas.utils.Directorio;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,8 +25,8 @@ public class Gestor_Peliculas {
         PropertyConfigurator.configure("log4j.properties");
         XMLCargarConfiguracion arc = null;
         
-        int estadisticaContadorPeliculas;
-        int estadisticasContadorPeliculasCorrectas;
+        int estadisticaContadorPeliculas = 0;
+        int estadisticasContadorPeliculasCorrectas = 0;
         
         try{
 
@@ -51,20 +52,30 @@ public class Gestor_Peliculas {
             log.info("Gestionando busqueda de "+ lista.size() +" peliculas");
             
             BuscarInfoPelicula buscar = new BuscarInfoPelicula();
-            
-            estadisticaContadorPeliculas = lista.size();
-            
+                        
             for(String arch: lista){
                 log.info("Preparandose para buscar info de pelicula: "+ arch);
                 if(!arch.contains(".")){
-                    
-                    for(String archAux: dir.formatearRutaFicheros(dir.listaDirectoriosNuevo(arc.getPath()+arch), arc.getPath()+arch)){
-                        estadisticaContadorPeliculas++;
-                        buscar.buscarInfoPeliculas(archAux);
+                    File file = new File(arch);
+                    if(file.isDirectory()){
+                        for(String archAux: dir.formatearRutaFicheros(dir.listaDirectoriosNuevo(arc.getPath()+arch), arc.getPath()+arch)){
+                            estadisticaContadorPeliculas++;
+                            try{
+                                if(!buscar.buscarInfoPeliculas(archAux))
+                                    estadisticasContadorPeliculasCorrectas++;
+                            } catch(Exception ex){
+                                log.error(ex.toString());
+                            }
+                        }
                     }
-                    
                 } else{
-                    buscar.buscarInfoPeliculas(arch);
+                    estadisticaContadorPeliculas++;
+                    try{
+                        if(!buscar.buscarInfoPeliculas(arch))
+                            estadisticasContadorPeliculasCorrectas++;
+                    } catch(Exception ex){
+                        log.error(ex.toString());
+                    }
                 }
             }
             
@@ -74,6 +85,8 @@ public class Gestor_Peliculas {
             
         } catch(ErrorPrograma ex){
             log.error(ex.toString());
+        } catch(Exception ex){
+            log.error("Error Generico");
         }
     }
     
