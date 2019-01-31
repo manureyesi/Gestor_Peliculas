@@ -1,7 +1,5 @@
 package com.peliculas.main;
 
-import com.peliculas.bd.AdministradorPeliculasDB;
-import com.peliculas.clases.Peliculas;
 import com.peliculas.configuracion.XMLCargarConfiguracion;
 import com.peliculas.exception.CodigoError;
 import com.peliculas.exception.ErrorPrograma;
@@ -49,20 +47,17 @@ public class Gestor_Peliculas {
             
             log.info("Gestionando busqueda de "+ lista.size() +" peliculas");
             
-            BuscarInfoPelicula buscar = null;
-            Peliculas pelicula = null;
-            buscar = new BuscarInfoPelicula();
+            BuscarInfoPelicula buscar = new BuscarInfoPelicula();
             for(String arch: lista){
-                try{
-                    pelicula = buscar.BuscarInfoPelicula(arch.substring(0,arch.lastIndexOf(".")), arch);
-                    log.info(arch.substring(0,arch.lastIndexOf(".")));
-                    if(!AdministradorPeliculasDB.subirPelicula(pelicula)){
-                        log.error("ERROR al añadir Pelicula de: "+ pelicula.getNombre());
+                log.info("Preparandose para buscar info de pelicula: "+ arch);
+                if(!arch.contains(".")){
+                    
+                    for(String archAux: dir.formatearRutaFicheros(dir.listaDirectoriosNuevo(arc.getPath()+arch), arc.getPath()+arch)){
+                        buscar.buscarInfoPeliculas(archAux);
                     }
-                } catch(ErrorPrograma ex){
-                    log.info("Error: " + ex.getDescripcionError() + " al buscar la pelicula: " + arch.substring(0,arch.lastIndexOf(".")));                
-                } catch(Exception ex){
-                    log.error("Error Generico: " + ex);
+                    
+                } else{
+                    buscar.buscarInfoPeliculas(arch);
                 }
             }
             

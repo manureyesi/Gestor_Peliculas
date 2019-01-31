@@ -25,7 +25,7 @@ public class AdministradorPeliculasDB {
             log.info("PELICULA añadida con EXITO");
         } catch (ErrorPrograma ex) {
             error = true;
-            log.error("Error al INSERTAR Pelicula");
+            log.error("Error al INSERTAR Pelicula: "+ pelicula.getNombre());
         }
                 
         return error;

@@ -47,7 +47,7 @@ public class Directorio {
         String[] ficheros = file.list();
         
         for(int i = 0; i < ficheros.length; i++){
-            if(!ficheros[i].contains("$") && ficheros[i].contains(".") && !ficheros[i].contains("00 - Peliculas Actualizar")){
+            if(!ficheros[i].contains("$") && !ficheros[i].contains("00 - Peliculas Actualizar")){
                 lista.add(ficheros[i]);         
             }
         }
