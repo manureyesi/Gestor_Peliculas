@@ -40,15 +40,17 @@ public class BuscarInfoPelicula {
 	
         document = getHtmlDocument(buscarIMDB);
         
-        Elements elem = null;
+        Elements elem = elem = document.select("tr.findResult");
+        String urlPeliculaBuscar = null;
+        
         try{
-            elem = document.select("tr.findResult");
+            urlPeliculaBuscar = url+elem.get(0).select("a").get(0).attr("href");
         } catch(Exception ex){
             log.error("Error al buscar pelicula: "+ pelicula +", no se han encontrado resultados");
             throw new ErrorPrograma(CodigoError.ERROR_BUSCAR_PELICULAS);
         }
         
-        Peliculas pel = BuscarDatosPelicula(url+elem.get(0).select("a").get(0).attr("href"));
+        Peliculas pel = BuscarDatosPelicula(urlPeliculaBuscar);
 
         pel.setUrl_video(urlPelicula);
         

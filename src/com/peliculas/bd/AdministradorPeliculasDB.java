@@ -12,22 +12,17 @@ public class AdministradorPeliculasDB {
     
     private final static Logger log = Logger.getLogger(AdministradorPeliculasDB.class);
     
-    public static boolean subirPelicula(Peliculas pelicula){
+    public static boolean subirPelicula(Peliculas pelicula) throws ErrorPrograma{
       
         log.info("Preparando INSERCION de PELICULA: " + pelicula.getNombre());
         boolean error = false;
         
-        try {
-            Consultas con = new Consultas();
-            
-            con.insertPelicula(pelicula.getNombre(), pelicula.getUrl_video(), pelicula.getUrl_img(), 
-                    1, pelicula.getAno(), pelicula.getDirector());
-            log.info("PELICULA añadida con EXITO");
-        } catch (ErrorPrograma ex) {
-            error = true;
-            log.error("Error al INSERTAR Pelicula: "+ pelicula.getNombre());
-        }
-                
+        Consultas con = new Consultas();
+
+        con.insertPelicula(pelicula.getNombre(), pelicula.getUrl_video(), pelicula.getUrl_img(), 
+                1, pelicula.getAno(), pelicula.getDirector());
+        log.info("PELICULA añadida con EXITO");
+             
         return error;
     }
     

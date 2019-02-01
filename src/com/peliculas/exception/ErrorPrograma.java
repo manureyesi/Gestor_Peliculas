@@ -20,5 +20,9 @@ public class ErrorPrograma extends Exception {
     public String getDescripcionError() {
         return this.codError.getDescripcion();
     }
-        
+    
+    @Override
+    public String toString(){
+        return this.codError.toString();
+    }
 }

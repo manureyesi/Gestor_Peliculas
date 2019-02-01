@@ -30,10 +30,10 @@ public class Conexion {
             arc = new XMLCargarConfiguracion();
         }
         catch(IOException | ParserConfigurationException | SAXException e){
-            log.error("Error al cargar datos de archivo: ", e);
+            log.error("Error al cargar datos de archivo");
             throw new ErrorPrograma(CodigoError.ERROR_XML);
         } catch(Exception e){
-            log.error("Error al cargar datos de archivo: ", e);
+            log.error("Error al cargar datos de archivo");
             throw new ErrorPrograma(CodigoError.ERROR_XML);
         }
         
@@ -43,7 +43,7 @@ public class Conexion {
             cn = DriverManager.getConnection(url,arc.getUser(),arc.getPass());
             log.info("Conexion creada correctamente");
         } catch (SQLException ex) {
-            log.error("Error al montar conexion MySQL: ", ex);
+            log.error("Error al montar conexion MySQL");
             throw new ErrorPrograma(CodigoError.ERROR_CONEXION);
         }
     }

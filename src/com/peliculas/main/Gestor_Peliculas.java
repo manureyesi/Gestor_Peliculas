@@ -27,6 +27,7 @@ public class Gestor_Peliculas {
         
         int estadisticaContadorPeliculas = 0;
         int estadisticasContadorPeliculasCorrectas = 0;
+        ArrayList<String> estadisticasControladorFallos = new ArrayList<>();
         
         try{
 
@@ -63,7 +64,8 @@ public class Gestor_Peliculas {
                             try{
                                 if(!buscar.buscarInfoPeliculas(archAux))
                                     estadisticasContadorPeliculasCorrectas++;
-                            } catch(Exception ex){
+                            } catch(ErrorPrograma ex){
+                                estadisticasControladorFallos.add(archAux+" Tipo Error: "+ex.toString());
                                 log.error(ex.toString());
                             }
                         }
@@ -73,15 +75,22 @@ public class Gestor_Peliculas {
                     try{
                         if(!buscar.buscarInfoPeliculas(arch))
                             estadisticasContadorPeliculasCorrectas++;
-                    } catch(Exception ex){
+                    } catch(ErrorPrograma ex){
+                        estadisticasControladorFallos.add(arch+" Tipo Error: "+ex.toString());
                         log.error(ex.toString());
                     }
                 }
             }
             
-            log.info("ESTADISTICAS:");
-            log.info("Estadistica peliculas listadas: "+ estadisticaContadorPeliculas);
-            log.info("Estadisticas peliculas insertadas en DB correctamente: "+ estadisticasContadorPeliculasCorrectas);
+            log.warn("*****************************************************************************");
+            log.warn("ESTADISTICAS:");
+            log.warn("Estadistica peliculas listadas: "+ estadisticaContadorPeliculas);
+            log.warn("Estadisticas peliculas insertadas en DB correctamente: "+ estadisticasContadorPeliculasCorrectas);
+            log.warn("Estadisticas peliculas erroneas: ");
+            estadisticasControladorFallos.forEach((String estadis) -> {
+                log.warn(estadis);
+            });
+            
             
         } catch(ErrorPrograma ex){
             log.error(ex.toString());
