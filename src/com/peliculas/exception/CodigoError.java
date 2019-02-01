@@ -12,8 +12,9 @@ public enum CodigoError {
           ERROR_CONEXION(101, "Error de conexion de MySQL"),
           ERROR_CONSULTAS(102, "Error de consultas"),
           ERROR_ARCHIVOS(103, "Error al listar archivos"),
-          ERROR_SCRAPING(103, "Error buscar peli en la WEB"),
-          ERROR_BUSCAR_PELICULAS(104, "Error al buscar peli en la WEB, no se encuentran resultados");
+          ERROR_SCRAPING(104, "Error buscar peli en la WEB"),
+          ERROR_BUSCAR_PELICULAS(105, "Error al buscar peli en la WEB, no se encuentran resultados"),
+          ERROR_TRANSFORMAR_PARAMETRO(106, "Error al transformar valor"),;
 
 	  private final int codigo;
 	  private final String descripcion;

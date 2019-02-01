@@ -62,8 +62,8 @@ public class Gestor_Peliculas {
                         for(String archAux: dir.formatearRutaFicheros(dir.listaDirectoriosNuevo(arc.getPath()+arch), arc.getPath()+arch)){
                             estadisticaContadorPeliculas++;
                             try{
-                                if(!buscar.buscarInfoPeliculas(archAux))
-                                    estadisticasContadorPeliculasCorrectas++;
+                                buscar.buscarInfoPeliculas(archAux);
+                                estadisticasContadorPeliculasCorrectas++;
                             } catch(ErrorPrograma ex){
                                 estadisticasControladorFallos.add(archAux+" Tipo Error: "+ex.toString());
                                 log.error(ex.toString());
@@ -73,8 +73,8 @@ public class Gestor_Peliculas {
                 } else{
                     estadisticaContadorPeliculas++;
                     try{
-                        if(!buscar.buscarInfoPeliculas(arch))
-                            estadisticasContadorPeliculasCorrectas++;
+                        buscar.buscarInfoPeliculas(arch);
+                        estadisticasContadorPeliculasCorrectas++;
                     } catch(ErrorPrograma ex){
                         estadisticasControladorFallos.add(arch+" Tipo Error: "+ex.toString());
                         log.error(ex.toString());
@@ -82,13 +82,13 @@ public class Gestor_Peliculas {
                 }
             }
             
-            log.warn("*****************************************************************************");
-            log.warn("ESTADISTICAS:");
-            log.warn("Estadistica peliculas listadas: "+ estadisticaContadorPeliculas);
-            log.warn("Estadisticas peliculas insertadas en DB correctamente: "+ estadisticasContadorPeliculasCorrectas);
-            log.warn("Estadisticas peliculas erroneas: ");
+            log.info("*****************************************************************************");
+            log.info("ESTADISTICAS:");
+            log.info("Estadistica peliculas listadas: "+ estadisticaContadorPeliculas);
+            log.info("Estadisticas peliculas insertadas en DB correctamente: "+ estadisticasContadorPeliculasCorrectas);
+            log.info("Estadisticas peliculas erroneas: ");
             estadisticasControladorFallos.forEach((String estadis) -> {
-                log.warn(estadis);
+                log.info(estadis);
             });
             
             

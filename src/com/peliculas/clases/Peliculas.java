@@ -12,10 +12,10 @@ public class Peliculas {
     private String url_video;
     private final String url_img;
     private final ArrayList<String> genero;
-    private final String ano;
+    private final int ano;
     private final String director;
 
-    public Peliculas(String nombre, String url_img, ArrayList<String> genero, String ano, String director) {
+    public Peliculas(String nombre, String url_img, ArrayList<String> genero, int ano, String director) {
         this.nombre = nombre;
         this.url_img = url_img;
         this.genero = genero;
@@ -43,7 +43,7 @@ public class Peliculas {
         return genero;
     }
 
-    public String getAno() {
+    public int getAno() {
         return ano;
     }
 

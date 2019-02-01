@@ -21,13 +21,13 @@ public class BuscarInfoPelicula {
     
     private final static Logger log = Logger.getLogger(BuscarInfoPelicula.class);
     
-    public boolean buscarInfoPeliculas(String arch) throws ErrorPrograma{
+    public void buscarInfoPeliculas(String arch) throws ErrorPrograma{
         Peliculas pelicula = null;
         
         pelicula = BuscarInfoPeliculaEnWeb(arch.substring(0,arch.lastIndexOf(".")), arch);
         log.info(arch.substring(0,arch.lastIndexOf(".")));
         
-        return AdministradorPeliculasDB.subirPelicula(pelicula);
+        AdministradorPeliculasDB.subirPelicula(pelicula);
     }
     
     private Peliculas BuscarInfoPeliculaEnWeb(String pelicula, String urlPelicula) throws ErrorPrograma{
@@ -46,7 +46,7 @@ public class BuscarInfoPelicula {
         try{
             urlPeliculaBuscar = url+elem.get(0).select("a").get(0).attr("href");
         } catch(Exception ex){
-            log.error("Error al buscar pelicula: "+ pelicula +", no se han encontrado resultados");
+            log.warn("Error al buscar pelicula: "+ pelicula +", no se han encontrado resultados", ex);
             throw new ErrorPrograma(CodigoError.ERROR_BUSCAR_PELICULAS);
         }
         
@@ -110,14 +110,23 @@ public class BuscarInfoPelicula {
         
         nombre = nombre.replace("("+ano+")", "");
         
-        elem = document.select("div.slate_wrapper");
+        elem = document.select("div.poster");
         
         String urlImg = elem.select("img").attr("src");
         
         elem = document.select("div.plot_summary");
         String director = elem.select("div.credit_summary_item").select("a").get(0).text();
-      
-        peli = new Peliculas(nombre, urlImg, generos, ano, director);
+        
+        int anho = 0;
+        
+        try{
+            anho = Integer.parseInt(ano);
+        } catch(NumberFormatException ex){
+            log.warn("Error al parar de String a Int año de la Pelicula", ex);
+            throw new ErrorPrograma(CodigoError.ERROR_TRANSFORMAR_PARAMETRO);
+        }
+        
+        peli = new Peliculas(nombre, urlImg, generos, anho, director);
         
         return peli;
     }
