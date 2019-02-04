@@ -67,10 +67,14 @@ public class Directorio {
         ArrayList<String> listaAux = new ArrayList<>();
         
         for(String archivo: lista){
-            listaAux.add(archivo.replace(path, ""));
+            listaAux.add(formatearFichero(archivo,path));
         }
         
         return listaAux;        
+    }
+    
+    public String formatearFichero(String nombre, String path){
+        return nombre.replace(path, "");
     }
     
 }
