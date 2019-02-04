@@ -57,9 +57,9 @@ public class Gestor_Peliculas {
             for(String arch: lista){
                 log.info("Preparandose para buscar info de pelicula: "+ arch);
                 if(!arch.contains(".")){
-                    File file = new File(arch);
+                    File file = new File(arc.getPath()+"\\"+arch);
                     if(file.isDirectory()){
-                        for(String archAux: dir.formatearRutaFicheros(dir.listaDirectoriosNuevo(arc.getPath()+arch), arc.getPath()+arch)){
+                        for(String archAux: dir.formatearRutaFicheros(dir.listaDirectoriosNuevo(arc.getPath()+"\\"+arch), arc.getPath()+"\\"+arch)){
                             estadisticaContadorPeliculas++;
                             try{
                                 buscar.buscarInfoPeliculas(archAux);
@@ -95,7 +95,7 @@ public class Gestor_Peliculas {
         } catch(ErrorPrograma ex){
             log.error(ex.toString());
         } catch(Exception ex){
-            log.error("Error Generico");
+            log.error("Error Generico", ex);
         }
     }
     
