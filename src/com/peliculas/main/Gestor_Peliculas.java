@@ -1,9 +1,11 @@
 package com.peliculas.main;
 
+import com.peliculas.clases.Estadisticas;
 import com.peliculas.configuracion.XMLCargarConfiguracion;
 import com.peliculas.exception.CodigoError;
 import com.peliculas.exception.ErrorPrograma;
 import com.peliculas.utils.BuscarInfoPelicula;
+import com.peliculas.utils.BuscarThread;
 import com.peliculas.utils.Directorio;
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +22,7 @@ import org.xml.sax.SAXException;
 public class Gestor_Peliculas {
 
     private final static Logger log = Logger.getLogger(Gestor_Peliculas.class);
-    
+        
     public static void main(String[] args) {
         PropertyConfigurator.configure("log4j.properties");
         XMLCargarConfiguracion arc = null;
@@ -53,35 +55,15 @@ public class Gestor_Peliculas {
             log.info("Gestionando busqueda de "+ lista.size() +" peliculas");
             
             BuscarInfoPelicula buscar = new BuscarInfoPelicula();
-                        
+            
+            BuscarThread thread = null;
+            
             for(String arch: lista){
-                log.info("Preparandose para buscar info de pelicula: "+ arch);
-                if(!arch.contains(".")){
-                    File file = new File(arc.getPath()+"\\"+arch);
-                    if(file.isDirectory()){
-                        for(String archAux: dir.formatearRutaFicheros(dir.listaDirectoriosNuevo(arc.getPath()+"\\"+arch), arc.getPath()+"\\"+arch)){
-                            estadisticaContadorPeliculas++;
-                            try{
-                                buscar.buscarInfoPeliculas(archAux);
-                                estadisticasContadorPeliculasCorrectas++;
-                            } catch(ErrorPrograma ex){
-                                estadisticasControladorFallos.add(archAux+" Tipo Error: "+ex.toString());
-                                log.error(ex.toString());
-                            }
-                        }
-                    }
-                } else{
-                    estadisticaContadorPeliculas++;
-                    try{
-                        buscar.buscarInfoPeliculas(arch);
-                        estadisticasContadorPeliculasCorrectas++;
-                    } catch(ErrorPrograma ex){
-                        estadisticasControladorFallos.add(arch+" Tipo Error: "+ex.toString());
-                        log.error(ex.toString());
-                    }
-                }
+                thread = new BuscarThread(arch, arc.getPath());
+                thread.start();
             }
             
+            /*
             log.info("*****************************************************************************");
             log.info("ESTADISTICAS:");
             log.info("Estadistica peliculas listadas: "+ estadisticaContadorPeliculas);
@@ -90,7 +72,7 @@ public class Gestor_Peliculas {
             estadisticasControladorFallos.forEach((String estadis) -> {
                 log.info(estadis);
             });
-            
+            */
             
         } catch(ErrorPrograma ex){
             log.error(ex.toString());
