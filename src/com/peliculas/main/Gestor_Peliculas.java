@@ -1,6 +1,5 @@
 package com.peliculas.main;
 
-import com.peliculas.clases.Estadisticas;
 import com.peliculas.configuracion.XMLCargarConfiguracion;
 import com.peliculas.exception.CodigoError;
 import com.peliculas.exception.ErrorPrograma;
@@ -58,12 +57,36 @@ public class Gestor_Peliculas {
             
             BuscarThread thread = null;
             
+            int cont = 0;
+            
             for(String arch: lista){
-                thread = new BuscarThread(arch, arc.getPath());
-                thread.start();
+                log.info("Preparandose para buscar info de pelicula: "+ arch);
+                if(!arch.contains(".")){
+                    File file = new File(arc.getPath()+"\\"+arch);
+                    if(file.isDirectory()){
+                        for(String archAux: dir.formatearRutaFicheros(dir.listaDirectoriosNuevo(arc.getPath()+"\\"+arch), arc.getPath()+"\\"+arch)){
+                            try{
+                                estadisticaContadorPeliculas++;
+                                buscar.buscarInfoPeliculas(archAux);
+                                estadisticasContadorPeliculasCorrectas++;
+                            } catch(ErrorPrograma ex){
+                                estadisticasControladorFallos.add(ex.toString());
+                                log.error(ex.toString());
+                            }
+                        }
+                    }
+                } else{
+                    try{
+                        estadisticaContadorPeliculas++;
+                        buscar.buscarInfoPeliculas(arch);
+                        estadisticasContadorPeliculasCorrectas++;
+                    } catch(ErrorPrograma ex){
+                        estadisticasControladorFallos.add(ex.toString());
+                        log.error(ex.toString());
+                    }
+                }              
             }
             
-            /*
             log.info("*****************************************************************************");
             log.info("ESTADISTICAS:");
             log.info("Estadistica peliculas listadas: "+ estadisticaContadorPeliculas);
@@ -72,7 +95,6 @@ public class Gestor_Peliculas {
             estadisticasControladorFallos.forEach((String estadis) -> {
                 log.info(estadis);
             });
-            */
             
         } catch(ErrorPrograma ex){
             log.error(ex.toString());

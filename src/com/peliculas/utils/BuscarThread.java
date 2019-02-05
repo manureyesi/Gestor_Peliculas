@@ -30,29 +30,7 @@ public class BuscarThread extends Thread {
         BuscarInfoPelicula buscar = new BuscarInfoPelicula();
         Directorio dir = new Directorio();
         
-        log.info("Preparandose para buscar info de pelicula: "+ arch);
-        if(!arch.contains(".")){
-            File file = new File(path+"\\"+arch);
-            if(file.isDirectory()){
-                try {
-                    for(String archAux: dir.formatearRutaFicheros(dir.listaDirectoriosNuevo(path+"\\"+arch), path+"\\"+arch)){
-                        try{
-                            buscar.buscarInfoPeliculas(archAux);
-                        } catch(ErrorPrograma ex){
-                            log.error(ex.toString());
-                        }
-                    }
-                } catch (ErrorPrograma ex) {
-                    log.error(ex.toString());
-                }
-            }
-        } else{
-            try{
-                buscar.buscarInfoPeliculas(arch);
-            } catch(ErrorPrograma ex){
-                log.error(ex.toString());
-            }
-        }
+        
         
         log.error("Pelicula: "+arch+" Tiempo: " + (System.currentTimeMillis() - s) + " ms. ");
         
