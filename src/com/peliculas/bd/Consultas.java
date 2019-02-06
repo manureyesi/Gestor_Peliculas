@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -15,17 +14,23 @@ import org.apache.log4j.Logger;
  */
 public class Consultas {
     
-    private final Logger log = Logger.getLogger(Consultas.class);
-    Connection con = null;
+    private final static Logger log = Logger.getLogger(Consultas.class);
+    private static final Connection con = crearConnection();
     
-    public Consultas() throws ErrorPrograma{
+    private static Connection crearConnection(){
         
-        Conexion conexion = new Conexion();
-        this.con = conexion.getCn();
+        Connection conn = null;
         
+        try{
+            Conexion conexion = new Conexion();
+            conn = conexion.getCn();
+        } catch(ErrorPrograma e){
+            log.error(e.toString());
+        }
+        return conn;
     }
-
-    public void insertPelicula(String nombre, String urlVideo, String urlImg, int genero, int fechaSalida, String director) throws ErrorPrograma {
+    
+    public static void insertPelicula(String nombre, String urlVideo, String urlImg, int genero, int fechaSalida, String director) throws ErrorPrograma {
         
         try{
             String sql = "INSERT INTO PELICULAS (NOMBRE, URL_VIDEO, URL_IMG, FECHA_SALIDA, DIRECTOR) VALUES (?, ?, ?, ?, ?)";
@@ -46,7 +51,7 @@ public class Consultas {
         }
     }
     
-    public ResultSet selectGenero(String condicion) throws ErrorPrograma{
+    public static ResultSet selectGenero(String condicion) throws ErrorPrograma{
         
         ResultSet rs;
         PreparedStatement consulta;
@@ -62,7 +67,7 @@ public class Consultas {
         
     }
     
-    public void crearGeneros(String generoIMDB) throws ErrorPrograma{
+    public static void crearGeneros(String generoIMDB) throws ErrorPrograma{
         try{
             String sql = "INSERT INTO GENERO (GENEROIMDB) VALUES (?)";
             PreparedStatement insert = con.prepareStatement(sql);

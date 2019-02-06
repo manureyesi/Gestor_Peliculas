@@ -19,11 +19,9 @@ public class AdministradorPeliculasDB {
       
         log.info("Preparando INSERCION de PELICULA: " + pelicula.getNombre());
       
-        Consultas con = new Consultas();
-        
         int genero = crearGenero(pelicula);
         
-        con.insertPelicula(pelicula.getNombre(), pelicula.getUrl_video(), pelicula.getUrl_img(), 
+        Consultas.insertPelicula(pelicula.getNombre(), pelicula.getUrl_video(), pelicula.getUrl_img(), 
                 genero, pelicula.getAno(), pelicula.getDirector());
         log.info("PELICULA añadida con EXITO");
     }
@@ -31,14 +29,13 @@ public class AdministradorPeliculasDB {
     private static int crearGenero(Peliculas pelicula) throws ErrorPrograma{
     
         log.info("Preparando Busqueda de Genero de Pelicula");
-        Consultas con = new Consultas();
         
         boolean generoEncontrado = false;
         int idGenero = 0;
         
         if(!pelicula.getGenero().isEmpty()){
             
-            ResultSet rsGenero = con.selectGenero(pelicula.getGenero().get(0));
+            ResultSet rsGenero = Consultas.selectGenero(pelicula.getGenero().get(0));
             
             try{
                 while(rsGenero.next()){
@@ -51,12 +48,12 @@ public class AdministradorPeliculasDB {
             }
             
             if(!generoEncontrado){
-                con.crearGeneros(pelicula.getGenero().get(0));
+                Consultas.crearGeneros(pelicula.getGenero().get(0));
                 log.info("GENERO "+pelicula.getGenero().get(0)+" insertado correctamente");
             }
             
             try{
-                rsGenero = con.selectGenero(pelicula.getGenero().get(0));
+                rsGenero = Consultas.selectGenero(pelicula.getGenero().get(0));
                 while(rsGenero.next()){
                     idGenero = rsGenero.getInt("ID");
                 }
