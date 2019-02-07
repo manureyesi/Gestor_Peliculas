@@ -37,18 +37,20 @@ public class Gestor_Peliculas {
                         
             int cont = 0;
             
+            String path = XMLCargarConfiguracion.getPath().contains("\\")?XMLCargarConfiguracion.getPath()+"\\":XMLCargarConfiguracion.getPath()+"/";
+            
             for(String arch: lista){
-                log.info("Preparandose para buscar info de pelicula: "+ arch);
+                log.info(arch.contains(".")?"Preparandose para buscar info de pelicula: "+ arch.substring(0,arch.lastIndexOf(".")):"Preparandose para buscar info de Saga: "+arch);
                 if(!arch.contains(".")){
-                    File file = new File(XMLCargarConfiguracion.getPath()+"\\"+arch);
+                    File file = new File(path+arch);
                     if(file.isDirectory()){
-                        for(String archAux: dir.formatearRutaFicheros(dir.listaDirectoriosNuevo(XMLCargarConfiguracion.getPath()+"\\"+arch), XMLCargarConfiguracion.getPath()+"\\"+arch)){
+                        for(String archAux: dir.formatearRutaFicheros(dir.listaDirectoriosNuevo(path+arch), path+arch)){
                             try{
                                 estadisticaContadorPeliculas++;
                                 buscar.buscarInfoPeliculas(archAux);
                                 estadisticasContadorPeliculasCorrectas++;
                             } catch(ErrorPrograma ex){
-                                estadisticasControladorFallos.add(ex.toString());
+                                estadisticasControladorFallos.add(ex.toString()+" -> "+archAux.substring(0,archAux.lastIndexOf(".")));
                                 log.error(ex.toString());
                             }
                         }
@@ -59,7 +61,7 @@ public class Gestor_Peliculas {
                         buscar.buscarInfoPeliculas(arch);
                         estadisticasContadorPeliculasCorrectas++;
                     } catch(ErrorPrograma ex){
-                        estadisticasControladorFallos.add(ex.toString());
+                        estadisticasControladorFallos.add(ex.toString()+" -> "+arch.substring(0,arch.lastIndexOf(".")));
                         log.error(ex.toString());
                     }
                 }              
@@ -80,5 +82,4 @@ public class Gestor_Peliculas {
             log.error("Error Generico", ex);
         }
     }
-    
 }
